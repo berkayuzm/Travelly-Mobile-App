@@ -1,20 +1,49 @@
+import { NavigationContainer } from '@react-navigation/native';
+import { createStackNavigator } from '@react-navigation/stack';
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
-
+import { ImageBackground, StyleSheet, Text, TouchableOpacity, View,LogBox } from 'react-native';
+import GetStartedScreen from './Screens/GetStartedScreen';
+import HomeScreen, { TabNavigation } from './Screens/HomeScreen';
+import PlaceDetails from './Screens/PlaceDetails';
+LogBox.ignoreLogs([
+  'Non-serializable values were found in the navigation state',
+]);
+const Stack = createStackNavigator();
 export default function App() {
   return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
+   <NavigationContainer>
+    <Stack.Navigator>
+      <Stack.Screen
+      name='GetStartedScreen'
+      component={GetStartedScreen}
+      options={{
+        header:()=>null
+      }}
+      />
+      <Stack.Screen
+      name='Home_Screen'
+      component={TabNavigation}
+      options={{
+        header:()=>null
+      }}
+      />
+       <Stack.Screen
+      name='Detail_Screen'
+      component={PlaceDetails}
+      options={{
+        header:()=>null
+      }}
+      />
+
+
+    </Stack.Navigator>
+   </NavigationContainer>
   );
 }
+
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
+  }
 });
