@@ -1,13 +1,36 @@
-import { StatusBar } from 'expo-status-bar';
 import { useEffect } from 'react';
-import { ImageBackground, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
-
+import { ImageBackground, StyleSheet, Text, TouchableHighlight, TouchableOpacity, View } from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { StatusBar } from 'expo-status-bar';
 export default function GetStartedScreen({navigation}) {
-   const goToHomeScreen =()=>{
+  useEffect(()=>{
+   fetchAsyncStorage();
+  },[])
+  const fetchAsyncStorage = async()=>{
+    try {
+      const keys = await AsyncStorage.getAllKeys();
+      console.log(keys);
+      console.log(keys.length)
+      if(keys.length===0){
+        const favorites=[]
+        await AsyncStorage.setItem("favorites",JSON.stringify(favorites))
+        console.log("favori dizisi oluşturuldu")
+      }
+      else{
+        console.log("favori dizisi zaten var!")
+        const favlist=await AsyncStorage.getItem("favorites")
+        console.log("favorilerim==>"+favlist)
+      }
+    } catch (error) {
+      
+    }
+  }
+  const goToHomeScreen =()=>{
     navigation.navigate("Home_Screen")
    }
   return (
     <View style={styles.container}>
+     <StatusBar  backgroundColor={'transparent'} translucent/>
       <ImageBackground source={require("../assets/background.png")} resizeMode="cover" style={styles.image}>
         <View style={styles.welcomecontainer}>
           <Text style={styles.welcomemaintext}>
@@ -16,9 +39,9 @@ export default function GetStartedScreen({navigation}) {
           <Text style={styles.welcomesubtext}>
             Emotion that can be carried with us all over the world
           </Text>
-          <TouchableOpacity style={styles.startbutton} onPress={goToHomeScreen}>
+          <TouchableHighlight style={styles.startbutton} onPress={goToHomeScreen}>
             <Text style={styles.starttext}>Get Started</Text>
-          </TouchableOpacity>
+          </TouchableHighlight>
         </View>
       </ImageBackground>
       <StatusBar style="auto" hidden={true} />

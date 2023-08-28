@@ -1,19 +1,28 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
+import { TouchableHighlight } from "react-native";
 import { View, Text, StyleSheet, Image, TouchableOpacity } from "react-native";
 function CategoryItem(props) {
- 
+  const goToPlacesByCategoriesScreen = () => {
+    let categoryId = props.category.id;
+    props.navigation.navigate("Places_By_Categories_Screen", {
+      categoryId: categoryId,
+      categoryName: props.category.name,
+    });
+  };
   return (
-    <View style={styles.categorycontainer} >
-        <View style={styles.categoryflex}>
-          <View style={styles.imagecontainer}>
-            <Image
-              source={require("../assets/beach.jpg")}
-              style={styles.image}
-            />
+
+        <View style={styles.categorycontainer}>
+          <View style={styles.categoryflex}>
+            <TouchableHighlight style={styles.imagecontainer} onPress={goToPlacesByCategoriesScreen} underlayColor="#EFEFEF">
+              <Image
+                source={{ uri: props.category.imageUrl }}
+                style={styles.image}
+              />
+            </TouchableHighlight>
+            <Text style={styles.categorynametext}>{props.category.name}</Text>
           </View>
-          <Text style={styles.categorynametext}>Category</Text>
         </View>
-      </View>
+
   );
 }
 const styles = StyleSheet.create({
@@ -44,8 +53,8 @@ const styles = StyleSheet.create({
     width: 40,
   },
   categorynametext: {
-    marginTop: 15,
-    fontSize: 18,
+    marginTop: 10,
+    fontSize: 16,
     fontWeight: "bold",
   },
 });

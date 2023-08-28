@@ -1,22 +1,36 @@
 import React from "react";
-import { TouchableOpacity } from "react-native";
+import { TouchableOpacity, TouchableHighlight } from "react-native";
 import { View, Text, StyleSheet, Image } from "react-native";
 
 function PopularCardItem(props) {
-  const goToDetailScreen=()=>{
-    let nav=props.nav;
-    props.nav.navigate("Detail_Screen",nav)
-  }
+  const goToDetailScreen = () => {
+    let nav = props.nav;
+    let obj = {
+      nav: nav,
+      id: props.place.id,
+    };
+    props.nav.navigate("Detail_Screen", obj);
+  };
   return (
-    <TouchableOpacity style={styles.cartcontainer} onPress={goToDetailScreen}  >
-      <View style={styles.imagecontainer}>
-        <Image source={require("../assets/mevlana.jpg")} style={styles.image} />
-      </View>
-      <View style={styles.textarea}>
-        <Text style={styles.placename}>Mevlana Türbesi</Text>
-        <Text style={styles.placecity}>Konya</Text>
-      </View>
-    </TouchableOpacity>
+    <TouchableHighlight
+      style={styles.cartcontainer}
+      onPress={goToDetailScreen}
+      underlayColor="white"
+    >
+      <>
+        <View style={styles.imagecontainer}>
+          <Image source={{ uri: props.place.imageUrl }} style={styles.image} />
+        </View>
+        <View style={styles.textarea}>
+          <Text style={styles.placename}>
+            {props.place.name.length > 12
+              ? props.place.name.slice(0, 12) + ".."
+              : props.place.name}
+          </Text>
+          <Text style={styles.placecity}>{props.place.cityName}</Text>
+        </View>
+      </>
+    </TouchableHighlight>
   );
 }
 
@@ -25,9 +39,10 @@ const styles = StyleSheet.create({
   cartcontainer: {
     height: 200,
     width: 150,
-    marginRight:20,
+    marginRight: 20,
+    marginBottom: 20,
     backgroundColor: "#EFEFEF",
-    paddingTop:8,
+    paddingTop: 8,
     borderRadius: 20,
     shadowColor: "#000",
     shadowOffset: {
@@ -37,7 +52,6 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.36,
     shadowRadius: 6.68,
     elevation: 8,
-
   },
   image: {
     height: "100%",
@@ -47,20 +61,18 @@ const styles = StyleSheet.create({
   imagecontainer: {
     flex: 7.5,
     alignItems: "center",
-    
   },
   placename: {
     fontSize: 18,
     fontWeight: "bold",
   },
-  textarea:{
-    flex:2.5,
-    paddingLeft:10,
-    justifyContent:"flex-end",
-    paddingBottom:10,
-    
+  textarea: {
+    flex: 2.5,
+    paddingLeft: 10,
+    justifyContent: "flex-end",
+    paddingBottom: 10,
   },
-  placecity:{
-    fontSize:15,
-  }
+  placecity: {
+    fontSize: 15,
+  },
 });
